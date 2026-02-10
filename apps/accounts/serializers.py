@@ -1,6 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from .models import User
+from .models import User, Profile, Verification
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -26,3 +26,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         validated_data.pop('password_2')
         user = User.objects.create_user(**validated_data)
         return user
+    
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['id', 'user', 'bio', 'gender', 'address', 'phone_number', 'avatar']
+
+class VerificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Verification
+        fields = ['id', 'user', 'otp']
