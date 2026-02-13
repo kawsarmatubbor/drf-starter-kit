@@ -36,3 +36,4 @@ class VerificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Verification
         fields = ['id', 'user', 'otp']
+        
