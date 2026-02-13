@@ -60,7 +60,7 @@ def account_verification_view(request):
     if user.is_active:
         return Response(
             {
-                "detail": "User already verified."
+                "error": "User already verified."
             }
         )
     
@@ -69,14 +69,14 @@ def account_verification_view(request):
     except Verification.DoesNotExist:
         return Response(
             {
-                "detail": "OTP not found."
+                "error": "OTP not found."
             }
         )
     
     if str(verification.otp) != str(provided_otp):
         return Response(
             {
-                "detail": "Invalid OTP."
+                "error": "Invalid OTP."
             }
         )
     
@@ -87,7 +87,7 @@ def account_verification_view(request):
 
     return Response(
         {
-            "message": "Account verified successfully."
+            "success": "Account verified successfully."
         }
     )
 
@@ -98,7 +98,7 @@ def resend_account_verification_otp(request):
     if not email:
         return Response(
             {
-                "detail": "Email is required."
+                "error": "Email is required."
             }
         )
 
@@ -107,14 +107,14 @@ def resend_account_verification_otp(request):
     except User.DoesNotExist:
         return Response(
             {
-                "detail": "User does not exist."
+                "error": "User does not exist."
             }
         )
     
     if user.is_active:
         return Response(
             {
-                "detail" : "Your are already verified"
+                "error" : "Your are already verified"
             }
         )
         
@@ -130,7 +130,9 @@ def resend_account_verification_otp(request):
     send_verification_otp(otp, user.email)
 
     return Response(
-        {"message": "OTP resent successfully."},
+        {
+            "success": "OTP resent successfully."
+        }
     )
 
 class ProfileView(APIView):
@@ -161,7 +163,7 @@ def forgot_password_view(request):
     if not email:
         return Response(
             {
-                "detail": "Email is required."
+                "error": "Email is required."
             }
         )
     
@@ -170,7 +172,7 @@ def forgot_password_view(request):
     except User.DoesNotExist:
         return Response(
             {
-                "detail": "User not found."
+                "error": "User not found."
             }
         )
     
@@ -187,7 +189,7 @@ def forgot_password_view(request):
 
     return Response(
         {
-            "detail": "OTP sent successful."
+            "success": "OTP sent successful."
         }
     )
 
@@ -199,7 +201,7 @@ def otp_verification_view(request):
     if not email or not provided_otp:
         return Response(
             {
-                "detail": "Email and OTP are required."
+                "error": "Email and OTP are required."
             }
         )
     
@@ -208,7 +210,7 @@ def otp_verification_view(request):
     except User.DoesNotExist:
         return Response(
             {
-                "detail": "User not found."
+                "error": "User not found."
             }
         )
     
@@ -217,21 +219,21 @@ def otp_verification_view(request):
     except Verification.DoesNotExist:
         return Response(
             {
-                "detail": "OTP not found."
+                "error": "OTP not found."
             }
         )
     
     if str(verification.otp) != str(provided_otp):
         return Response(
             {
-                "detail": "Invalid OTP."
+                "error": "Invalid OTP."
             }
         )
     
     if verification.is_verified:
         return Response(
             {
-                "detail": "OTP already verified."
+                "error": "OTP already verified."
             }
         )
     
@@ -240,7 +242,7 @@ def otp_verification_view(request):
 
     return Response(
         {
-            "message": "OTP verified successfully."
+            "success": "OTP verified successfully."
         }
     )
 
@@ -253,14 +255,14 @@ def set_new_password_view(request):
     if not email or not new_password or not confirm_new_password:
         return Response(
             {
-                "detail": "Email and passwords are required."
+                "error": "Email and passwords are required."
             }
         )
 
     if new_password != confirm_new_password:
         return Response(
             {
-                "detail": "Passwords do not match."
+                "error": "Passwords do not match."
             }
         )
     
@@ -269,7 +271,7 @@ def set_new_password_view(request):
     except User.DoesNotExist:
         return Response(
             {
-                "detail": "User not found."
+                "error": "User not found."
             }
         )
 
@@ -278,14 +280,14 @@ def set_new_password_view(request):
     except Verification.DoesNotExist:
         return Response(
             {
-                "detail": "OTP record not found."
+                "error": "OTP record not found."
             }
         )
 
     if not verification.is_verified:
         return Response(
             {
-                "detail": "OTP is not verified yet."
+                "error": "OTP is not verified yet."
             }
         )
 
