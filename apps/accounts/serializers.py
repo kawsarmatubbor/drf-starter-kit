@@ -31,9 +31,3 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id', 'user', 'bio', 'gender', 'address', 'phone_number', 'avatar']
-
-class VerificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Verification
-        fields = ['id', 'user', 'otp']
-        
