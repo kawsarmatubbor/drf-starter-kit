@@ -90,10 +90,30 @@
         {
           "name": "Resend account verification OTP ✔",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "development_2@matubborkawsar.com",
+                  "type": "text"
+                }
+              ]
+            },
             "url": {
-              "raw": ""
+              "raw": "{{base_url}}/resend-account-verification-otp/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "resend-account-verification-otp",
+                ""
+              ]
             }
           },
           "response": []
