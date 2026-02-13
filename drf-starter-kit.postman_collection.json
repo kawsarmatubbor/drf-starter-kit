@@ -1,0 +1,385 @@
+{
+  "info": {
+    "_postman_id": "51e9d72f-bea2-443e-85aa-f0aabc281982",
+    "name": "drf-starter-kit",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "39584969",
+    "_collection_link": "https://go.postman.co/collection/39584969-51e9d72f-bea2-443e-85aa-f0aabc281982?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Authentication ✔",
+      "item": [
+        {
+          "name": "Register ✔",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "development_2@matubborkawsar.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "Matubbor@0120",
+                  "type": "text"
+                },
+                {
+                  "key": "password_2",
+                  "value": "Matubbor@0120",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/register/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "register",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Account verification ✔",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "development_2@matubborkawsar.com",
+                  "type": "text"
+                },
+                {
+                  "key": "otp",
+                  "value": "499041",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/account-verification/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "account-verification",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resend account verification OTP ✔",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login ✔",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "development_2@matubborkawsar.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "Matubbor@0120",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/login/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "login",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh ✔",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "refresh",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MTA0MDkzNSwiaWF0IjoxNzcwOTU0NTM1LCJqdGkiOiJjZDM2MWNiMGM3YjI0ZWJmYThlOWVlOTJmZTQzYWVhNCIsInVzZXJfaWQiOiI4In0.8XZ1z8cBUm4JZ_BL0BDI1xaPwUQawjZESWjoajETGOY",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/refresh/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "refresh",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get profile ✔",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/profile/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "profile",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update profile ✔",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "bio",
+                  "value": "Full stack web developer",
+                  "type": "text"
+                },
+                {
+                  "key": "gender",
+                  "value": "male",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "Morrelganj, Bagerhat",
+                  "type": "text"
+                },
+                {
+                  "key": "phone_number",
+                  "value": "012 345 6789",
+                  "type": "text"
+                },
+                {
+                  "key": "avatar",
+                  "value": "",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/profile/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "profile",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot password ✔",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "development_2@matubborkawsar.com",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/forgot-password/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "forgot-password",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot password verification ✔",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "development_2@matubborkawsar.com",
+                  "type": "text"
+                },
+                {
+                  "key": "otp",
+                  "value": "461454",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/forgot-password-verification/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "forgot-password-verification",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Set new password ✔",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "development_2@matubborkawsar.com",
+                  "type": "text"
+                },
+                {
+                  "key": "new_password",
+                  "value": "Matubbor@0120",
+                  "type": "text"
+                },
+                {
+                  "key": "confirm_new_password",
+                  "value": "Matubbor@0120",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/set-new-password/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "set-new-password",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwOTYwOTk3LCJpYXQiOjE3NzA5NTkxOTcsImp0aSI6IjJkMTNmMDk3MGI1ZDQ1OTY5YmYxNjkxZWU5OTZmMzdkIiwidXNlcl9pZCI6IjkifQ.4YWrJz1DFtfozsikpNzU-HuFS90DSfpA5UL4GJ1MLJM",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    }
+  ]
+}
