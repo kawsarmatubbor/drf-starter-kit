@@ -36,7 +36,18 @@ class Profile(models.Model):
         return f"{self.user.username}'s Profile"
     
 class Verification(models.Model):
+    PURPOSE_CHOICE = (
+        ('account_verification', 'Account verification'),
+        ('password_reset', 'Password reset'),
+        ('account_deactivation', 'Account deactivation'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)
+    purpose = models.CharField(max_length=20, choices=PURPOSE_CHOICE,)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['user', 'purpose']),
+        ]
