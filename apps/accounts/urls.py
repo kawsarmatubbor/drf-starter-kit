@@ -1,5 +1,13 @@
 from django.urls import path
-from .views import register_view, ProfileView, resend_account_verification_otp, forgot_password_view, otp_verification_view, set_new_password_view
+from .views import (
+    register_view, 
+    ProfileView, 
+    resend_account_verification_otp, 
+    forgot_password_view, 
+    otp_verification_view, 
+    set_new_password_view, 
+    change_password_view,
+)
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -15,4 +23,5 @@ urlpatterns = [
     path('password/forgot/', forgot_password_view, name='forgot-password'),
     path('password/resend-otp/', forgot_password_view, name='resend-forgot-password-verification-otp'),
     path('password/reset/', set_new_password_view, name='set-new-password'),
+    path('password/change/', change_password_view, name='set-new-password'),
 ]

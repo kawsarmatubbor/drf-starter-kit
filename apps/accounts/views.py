@@ -1,7 +1,7 @@
 import random
 from django.utils import timezone
 from datetime import timedelta
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -203,6 +203,48 @@ def set_new_password_view(request):
         return Response({"error": "OTP is not verified yet."}, status=400)
 
     verification.delete()
+    user.set_password(new_password)
+    user.save()
+
+    return Response(
+        {"success": "Password updated successfully."},
+        status=200
+    )
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def change_password_view(request):
+    user = request.user
+
+    old_password = request.data.get("old_password")
+    new_password = request.data.get("new_password")
+    confirm_new_password = request.data.get("confirm_new_password")
+
+    if not old_password or not new_password or not confirm_new_password:
+        return Response(
+            {"error": "All password fields are required."},
+            status=400
+        )
+
+    if not user.check_password(old_password):
+        return Response(
+            {"error": "Old password is incorrect."},
+            status=400
+        )
+
+    if new_password != confirm_new_password:
+        return Response(
+            {"error": "Passwords do not match."},
+            status=400
+        )
+
+    if user.check_password(new_password):
+        return Response(
+            {"error": "New password must be different from old password."},
+            status=400
+        )
+
     user.set_password(new_password)
     user.save()
 
