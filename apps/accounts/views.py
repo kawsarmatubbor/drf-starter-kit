@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from .serializers import RegisterSerializer, ProfileSerializer
-from .models import User, Profile, Verification
+from .serializers import NotificationSerializer, RegisterSerializer, ProfileSerializer
+from .models import Notification, User, Profile, Verification
 from .send_mail import send_verification_otp, send_forgot_password_otp
 
 
@@ -252,3 +252,13 @@ def change_password_view(request):
         {"success": "Password updated successfully."},
         status=200
     )
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def notification_view(request):
+    user = request.user
+
+    notifications = Notification.object.filter(user = user, is_read = False)
+    serializer = NotificationSerializer(notifications, many = True)
+
+    return Response(serializer.data)

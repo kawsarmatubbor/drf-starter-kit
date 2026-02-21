@@ -1,6 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from .models import User, Profile, Verification
+from .models import User, Profile, Notification
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -34,3 +34,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id', 'user', 'bio', 'gender', 'address', 'phone_number', 'avatar']
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['id', 'user', 'title', 'message']
