@@ -7,6 +7,7 @@ from .views import (
     otp_verification_view, 
     set_new_password_view, 
     change_password_view,
+    notification_view,
 )
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -24,4 +25,5 @@ urlpatterns = [
     path('password/resend-otp/', forgot_password_view, name='resend-forgot-password-verification-otp'),
     path('password/reset/', set_new_password_view, name='set-new-password'),
     path('password/change/', change_password_view, name='set-new-password'),
+    path('notifications/', notification_view, name='notifications'),
 ]

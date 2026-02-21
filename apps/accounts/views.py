@@ -258,7 +258,7 @@ def change_password_view(request):
 def notification_view(request):
     user = request.user
 
-    notifications = Notification.object.filter(user = user, is_read = False)
+    notifications = Notification.objects.filter(user = user, is_read = False)
     serializer = NotificationSerializer(notifications, many = True)
 
     return Response(serializer.data)

@@ -69,18 +69,24 @@
                 },
                 {
                   "key": "otp",
-                  "value": "499041",
+                  "value": "792361",
                   "type": "text"
+                },
+                {
+                  "key": "purpose",
+                  "value": "account_verification",
+                  "type": "text",
+                  "uuid": "cdc7c7a8-ec19-4aa4-ad0d-442f0471f3fa"
                 }
               ]
             },
             "url": {
-              "raw": "{{base_url}}/account-verification/",
+              "raw": "{{base_url}}/verify-otp/",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "account-verification",
+                "verify-otp",
                 ""
               ]
             }
@@ -100,18 +106,19 @@
               "formdata": [
                 {
                   "key": "email",
-                  "value": "development_2@matubborkawsar.com",
+                  "value": "development_1@matubborkawsar.com",
                   "type": "text"
                 }
               ]
             },
             "url": {
-              "raw": "{{base_url}}/resend-account-verification-otp/",
+              "raw": "{{base_url}}/account/resend-otp/",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "resend-account-verification-otp",
+                "account",
+                "resend-otp",
                 ""
               ]
             }
@@ -264,18 +271,19 @@
               "formdata": [
                 {
                   "key": "email",
-                  "value": "development_2@matubborkawsar.com",
+                  "value": "development_3@matubborkawsar.com",
                   "type": "text"
                 }
               ]
             },
             "url": {
-              "raw": "{{base_url}}/forgot-password/",
+              "raw": "{{base_url}}/password/forgot/",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "forgot-password",
+                "password",
+                "forgot",
                 ""
               ]
             }
@@ -300,18 +308,24 @@
                 },
                 {
                   "key": "otp",
-                  "value": "461454",
+                  "value": "924599",
                   "type": "text"
+                },
+                {
+                  "key": "purpose",
+                  "value": "password_reset",
+                  "type": "text",
+                  "uuid": "637a7c73-a8bd-4fa5-811e-80948e4bfb4a"
                 }
               ]
             },
             "url": {
-              "raw": "{{base_url}}/forgot-password-verification/",
+              "raw": "{{base_url}}/verify-otp/",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "forgot-password-verification",
+                "verify-otp",
                 ""
               ]
             }
@@ -347,12 +361,71 @@
               ]
             },
             "url": {
-              "raw": "{{base_url}}/set-new-password/",
+              "raw": "{{base_url}}/password/reset/",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "set-new-password",
+                "password",
+                "reset",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change password ✔",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "old_password",
+                  "value": "Matubbor@01201",
+                  "type": "text",
+                  "uuid": "ce477cfc-1cdb-4f4d-9ed2-c4a2b606b0ff"
+                },
+                {
+                  "key": "new_password",
+                  "value": "Matubbor@0120",
+                  "type": "text"
+                },
+                {
+                  "key": "confirm_new_password",
+                  "value": "Matubbor@0120",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/password/change/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "password",
+                "change",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Notification",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "notifications",
                 ""
               ]
             }
@@ -367,7 +440,7 @@
     "bearer": [
       {
         "key": "token",
-        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwOTYwOTk3LCJpYXQiOjE3NzA5NTkxOTcsImp0aSI6IjJkMTNmMDk3MGI1ZDQ1OTY5YmYxNjkxZWU5OTZmMzdkIiwidXNlcl9pZCI6IjkifQ.4YWrJz1DFtfozsikpNzU-HuFS90DSfpA5UL4GJ1MLJM",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcxNjQ5NjIwLCJpYXQiOjE3NzE2NDc4MjAsImp0aSI6ImE0MTExNDkxMzU0YTRhZDc4ZmUwNmQwMTc5MmM5OGNhIiwidXNlcl9pZCI6IjMifQ.yl2ZkR_FXTaJlz0LEIHX48zuF1dsU6_ulgqJBTL3Lnc",
         "type": "string"
       }
     ]

@@ -28,6 +28,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         
         Profile.objects.create(user=user)
 
+        Notification.objects.create(
+            user=user,
+            title = "Welcome",
+            message = "Your are successfully registered:)"
+        )
+
         return user
     
 class ProfileSerializer(serializers.ModelSerializer):
