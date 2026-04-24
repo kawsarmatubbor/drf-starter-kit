@@ -6,6 +6,8 @@ from .serializers import (
     SignoutSerializer,
     RefreshTokenSerializer,
     TokenVerifySerializer,
+    UserSerializer,
+    ProfileSerializer,
 )
 from utils.helpers import success, error
 
@@ -64,6 +66,36 @@ class SignoutView(APIView):
             errors=serializer.errors,
         )
 
+# Profile view
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return success(
+            status_code=200,
+            message="Profile retrieved successfully.",
+            data=serializer.data,
+        )
+
+    def put(self, request):
+        profile = request.user.profile
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return success(
+                status_code=200,
+                message="Profile updated successfully.",
+                data=serializer.data,
+            )
+        return error(
+            status_code=400,
+            message="Profile update failed.",
+            errors=serializer.errors,
+        )
+    
 # Refresh token view
 class RefreshTokenView(APIView):
     def post(self, request):

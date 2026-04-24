@@ -2,7 +2,6 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError, AccessToken
-from rest_framework_simplejwt.exceptions import InvalidToken
 from .models import User, Profile
 
 # Profile serializer
@@ -10,6 +9,14 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['first_name', 'last_name', 'bio', 'gender', 'address', 'phone_number', 'avatar']
+
+# User serializer
+class UserSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'profile']
 
 # Signup serializer
 class SignupSerializer(serializers.ModelSerializer):

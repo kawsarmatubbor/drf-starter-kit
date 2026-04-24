@@ -3,6 +3,7 @@ from .views import (
     SignupView,
     SigninView,
     SignoutView,
+    ProfileView,
     RefreshTokenView,
     TokenVerifyView,
 )
@@ -14,7 +15,7 @@ urlpatterns = [
     path('signout/', SignoutView.as_view(), name='signout'),
 
     # Profile
-    # path('profile/', , name='profile'),
+    path('profile/', ProfileView.as_view(), name='profile'),
 
     # OTP
     # path('otp/verify/', , name='otp_verify'),
