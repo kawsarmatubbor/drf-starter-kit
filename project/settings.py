@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # installed packages
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
 
     # installed apps
     'apps.user',

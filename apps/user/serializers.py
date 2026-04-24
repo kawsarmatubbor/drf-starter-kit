@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from .models import User, Profile
 
 # Profile serializer
@@ -66,4 +66,19 @@ class SigninSerializer(serializers.Serializer):
             "refresh": str(refresh),
             "access": str(refresh.access_token),
         }
+        return attrs
+
+# Signout serializer
+class SignoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField(write_only=True, required=True)
+
+    def validate(self, attrs):
+        refresh_token = attrs.get("refresh")
+
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+        except TokenError:
+            raise serializers.ValidationError("Invalid or expired token.")
+
         return attrs
