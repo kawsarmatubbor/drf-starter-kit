@@ -1,12 +1,13 @@
 from django.urls import path
 from .views import (
-    SignupView
+    SignupView,
+    SigninView,
 )
 
 urlpatterns = [
     # Authentication
     path('signup/', SignupView.as_view(), name='signup'),
-    # path('signin/', , name='signin'),
+    path('signin/', SigninView.as_view(), name='signin'),
     # path('signout/', , name='signout'),
 
     # Profile

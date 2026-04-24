@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from .serializers import SignupSerializer
+from .serializers import SignupSerializer, SigninSerializer
 from utils.helpers import success, error
 
 # Signup view
@@ -17,5 +17,24 @@ class SignupView(APIView):
         return error(
             status_code=400,
             message="Signup failed.",
+            errors=serializer.errors,
+        )
+    
+# Signin view
+class SigninView(APIView):
+    def post(self, request):
+        serializer = SigninSerializer(data=request.data, context={"request": request})
+
+        if serializer.is_valid():
+            tokens = serializer.validated_data["tokens"]
+
+            return success(
+                status_code=200,
+                message="Signin successful.",
+                data=tokens,
+            )
+        return error(
+            status_code=400,
+            message="Signin failed.",
             errors=serializer.errors,
         )
