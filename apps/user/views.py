@@ -1,6 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from .serializers import SignupSerializer, SigninSerializer, SignoutSerializer
+from .serializers import (
+    SignupSerializer,
+    SigninSerializer,
+    SignoutSerializer,
+    RefreshTokenSerializer,
+    TokenVerifySerializer,
+)
 from utils.helpers import success, error
 
 # Signup view
@@ -55,5 +61,43 @@ class SignoutView(APIView):
         return error(
             status_code=400,
             message="Signout failed.",
+            errors=serializer.errors,
+        )
+
+# Refresh token view
+class RefreshTokenView(APIView):
+    def post(self, request):
+        serializer = RefreshTokenSerializer(data=request.data)
+
+        if serializer.is_valid():
+            return success(
+                status_code=200,
+                message="Token refresh successful.",
+                data={
+                    "access": serializer.validated_data["access"],
+                },
+            )
+        return error(
+            status_code=400,
+            message="Token refresh failed.",
+            errors=serializer.errors,
+        )
+
+# Verify token view
+class TokenVerifyView(APIView):
+    def post(self, request):
+        serializer = TokenVerifySerializer(data=request.data)
+
+        if serializer.is_valid():
+            return success(
+                status_code=200,
+                message="Token is valid.",
+                data={
+                    "valid": True,
+                },
+            )
+        return error(
+            status_code=400,
+            message="Token verification failed.",
             errors=serializer.errors,
         )

@@ -3,6 +3,8 @@ from .views import (
     SignupView,
     SigninView,
     SignoutView,
+    RefreshTokenView,
+    TokenVerifyView,
 )
 
 urlpatterns = [
@@ -24,6 +26,6 @@ urlpatterns = [
     # path('password/reset/', , name='password_reset'),
 
     # Token
-    # path('token/refresh/', , name='token_refresh'),
-    # path('token/verify/', , name='token_verify'),
+    path('token/refresh/', RefreshTokenView.as_view(), name='token_refresh'),
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]
