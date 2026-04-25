@@ -1,8 +1,12 @@
+from datetime import timedelta
+from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken, TokenError
-from .models import User, Profile
+from utils.helpers import generate_otp
+from utils.email_sender import send_password_reset_otp_email
+from .models import User, Profile, Verification
 
 # Profile serializer
 class ProfileSerializer(serializers.ModelSerializer):
@@ -121,7 +125,6 @@ class TokenVerifySerializer(serializers.Serializer):
 
         return attrs
 
-
 # Password change serializer
 class PasswordChangeSerializer(serializers.Serializer):
     current_password = serializers.CharField(write_only=True, required=True)
@@ -152,3 +155,37 @@ class PasswordChangeSerializer(serializers.Serializer):
         user.set_password(self.validated_data["new_password"])
         user.save(update_fields=["password"])
         return user
+
+# Forgot password serializer
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("User with this email does not exist.")
+        
+        ex_otp = Verification.objects.filter(user=user, purpose="password_reset").last()
+
+        print(timezone.now())
+        
+        if ex_otp:
+            if ex_otp.created_at + timedelta(minutes=5) > timezone.now():
+                raise serializers.ValidationError("Password reset OTP already sent. Please wait 5 minutes.")
+
+        Verification.objects.filter(user=user, purpose="password_reset").delete()
+                
+        attrs["user"] = user
+        return attrs
+    
+    def create(self, validated_data):
+        user = validated_data.get("user")
+
+        verification = Verification.objects.create(user=user, otp=generate_otp(), purpose="password_reset")
+
+        send_password_reset_otp_email(email=user.email, otp=verification.otp)
+
+        return verification

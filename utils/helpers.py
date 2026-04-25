@@ -1,3 +1,4 @@
+import random
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -19,3 +20,7 @@ def error(status_code=status.HTTP_400_BAD_REQUEST, message="Error", errors=None)
         "data": None,
         "errors": errors
     }, status=status_code)
+
+# Generate OTP
+def generate_otp():
+    return str(random.randint(100000, 999999))
