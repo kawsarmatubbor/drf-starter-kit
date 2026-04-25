@@ -120,3 +120,35 @@ class TokenVerifySerializer(serializers.Serializer):
             raise serializers.ValidationError("Invalid or expired access token.")
 
         return attrs
+
+
+# Password change serializer
+class PasswordChangeSerializer(serializers.Serializer):
+    current_password = serializers.CharField(write_only=True, required=True)
+    new_password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    new_password_2 = serializers.CharField(write_only=True, required=True)
+
+    def validate(self, attrs):
+        user = self.context["request"].user
+        current_password = attrs.get("current_password")
+        new_password = attrs.get("new_password")
+        new_password_2 = attrs.get("new_password_2")
+
+        if not user.check_password(current_password):
+            raise serializers.ValidationError(
+                {"current_password": ["Current password is incorrect."]}
+            )
+
+        if new_password != new_password_2:
+            raise serializers.ValidationError(
+                {"new_password_2": ["New passwords do not match."]}
+            )
+
+        validate_password(new_password, user=user)
+        return attrs
+
+    def save(self, **kwargs):
+        user = self.context["request"].user
+        user.set_password(self.validated_data["new_password"])
+        user.save(update_fields=["password"])
+        return user

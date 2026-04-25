@@ -4,17 +4,18 @@ from .serializers import (
     SignupSerializer,
     SigninSerializer,
     SignoutSerializer,
-    RefreshTokenSerializer,
-    TokenVerifySerializer,
     UserSerializer,
     ProfileSerializer,
+    PasswordChangeSerializer,
+    RefreshTokenSerializer,
+    TokenVerifySerializer,
 )
 from utils.helpers import success, error
 
 # Signup view
 class SignupView(APIView):
     def post(self, request):
-        serializer = SignupSerializer(data = request.data)
+        serializer = SignupSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -131,5 +132,24 @@ class TokenVerifyView(APIView):
         return error(
             status_code=400,
             message="Token verification failed.",
+            errors=serializer.errors,
+        )
+
+# Password change view
+class PasswordChangeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = PasswordChangeSerializer(data=request.data, context={"request": request})
+
+        if serializer.is_valid():
+            serializer.save()
+            return success(
+                status_code=200,
+                message="Password changed successfully.",
+            )
+        return error(
+            status_code=400,
+            message="Password change failed.",
             errors=serializer.errors,
         )

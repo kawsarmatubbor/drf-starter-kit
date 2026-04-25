@@ -4,6 +4,7 @@ from .views import (
     SigninView,
     SignoutView,
     ProfileView,
+    PasswordChangeView,
     RefreshTokenView,
     TokenVerifyView,
 )
@@ -22,7 +23,7 @@ urlpatterns = [
     # path('otp/resend/', , name='otp_resend'),
 
     # Password
-    # path('password/change/', , name='password_change'),
+    path('password/change/', PasswordChangeView.as_view(), name='password_change'),
     # path('password/forgot/', , name='password_forgot'),
     # path('password/reset/', , name='password_reset'),
 
