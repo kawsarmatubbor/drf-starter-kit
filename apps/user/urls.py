@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     SignupView,
     OtpVerifyView,
+    OtpResendView,
     SigninView,
     SignoutView,
     ProfileView,
@@ -22,7 +23,7 @@ urlpatterns = [
 
     # OTP
     path('otp/verify/', OtpVerifyView.as_view(), name='otp_verify'),
-    # path('otp/resend/', , name='otp_resend'),
+    path('otp/resend/', OtpResendView.as_view(), name='otp_resend'),
 
     # Password
     path('password/change/', PasswordChangeView.as_view(), name='password_change'),

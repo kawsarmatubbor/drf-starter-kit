@@ -115,6 +115,61 @@ class OtpVerifySerializer(serializers.Serializer):
 
         return user
 
+# OTP resend serializer
+class OtpResendSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    purpose = serializers.ChoiceField(
+        required=True,
+        choices=Verification.PURPOSE_CHOICES,
+    )
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        purpose = attrs.get("purpose")
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"email": ["User with this email does not exist."]})
+
+        if purpose == "account_activation" and user.is_active:
+            raise serializers.ValidationError("This account is already active.")
+
+        existing_otp = Verification.objects.filter(
+            user=user,
+            purpose=purpose,
+            is_verified=False,
+        ).last()
+
+        if existing_otp and existing_otp.created_at + timedelta(minutes=5) > timezone.now():
+            raise serializers.ValidationError("OTP already sent. Please wait 5 minutes.")
+
+        Verification.objects.filter(
+            user=user,
+            purpose=purpose,
+            is_verified=False,
+        ).delete()
+
+        attrs["user"] = user
+        return attrs
+
+    def create(self, validated_data):
+        user = validated_data["user"]
+        purpose = validated_data["purpose"]
+
+        verification = Verification.objects.create(
+            user=user,
+            otp=generate_otp(),
+            purpose=purpose,
+        )
+
+        if purpose == "account_activation":
+            send_signup_otp_email(email=user.email, otp=verification.otp)
+        else:
+            send_password_reset_otp_email(email=user.email, otp=verification.otp)
+
+        return verification
+
 # Signin serializer
 class SigninSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)

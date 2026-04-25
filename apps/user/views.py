@@ -4,6 +4,7 @@ from utils.helpers import success, error
 from .serializers import (
     SignupSerializer,
     OtpVerifySerializer,
+    OtpResendSerializer,
     SigninSerializer,
     SignoutSerializer,
     UserSerializer,
@@ -49,6 +50,22 @@ class OtpVerifyView(APIView):
             errors=serializer.errors,
         )
 
+# OTP resend view
+class OtpResendView(APIView):
+    def post(self, request):
+        serializer = OtpResendSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return success(
+                status_code=200,
+                message="OTP sent successfully.",
+            )
+        return error(
+            status_code=400,
+            message="OTP resend failed.",
+            errors=serializer.errors,
+        )
 
 # Signin view
 class SigninView(APIView):
