@@ -214,37 +214,6 @@ class SignoutSerializer(serializers.Serializer):
 
         return attrs
 
-# Refresh token serializer
-class RefreshTokenSerializer(serializers.Serializer):
-    refresh = serializers.CharField(write_only=True, required=True)
-
-    def validate(self, attrs):
-        refresh_token = attrs.get("refresh")
-
-        try:
-            token = RefreshToken(refresh_token)
-            new_access = str(token.access_token)
-
-            attrs["access"] = new_access
-        except TokenError:
-            raise serializers.ValidationError("Invalid or expired refresh token.")
-
-        return attrs
-
-# Access token verify serializer
-class TokenVerifySerializer(serializers.Serializer):
-    access = serializers.CharField(write_only=True, required=True)
-
-    def validate(self, attrs):
-        access_token = attrs.get("access")
-
-        try:
-            AccessToken(access_token)
-        except TokenError:
-            raise serializers.ValidationError("Invalid or expired access token.")
-
-        return attrs
-
 # Password change serializer
 class PasswordChangeSerializer(serializers.Serializer):
     current_password = serializers.CharField(write_only=True, required=True)
@@ -364,3 +333,35 @@ class PasswordResetSerializer(serializers.Serializer):
         verification.delete()
 
         return user
+
+
+# Refresh token serializer
+class RefreshTokenSerializer(serializers.Serializer):
+    refresh = serializers.CharField(write_only=True, required=True)
+
+    def validate(self, attrs):
+        refresh_token = attrs.get("refresh")
+
+        try:
+            token = RefreshToken(refresh_token)
+            new_access = str(token.access_token)
+
+            attrs["access"] = new_access
+        except TokenError:
+            raise serializers.ValidationError("Invalid or expired refresh token.")
+
+        return attrs
+
+# Access token verify serializer
+class TokenVerifySerializer(serializers.Serializer):
+    access = serializers.CharField(write_only=True, required=True)
+
+    def validate(self, attrs):
+        access_token = attrs.get("access")
+
+        try:
+            AccessToken(access_token)
+        except TokenError:
+            raise serializers.ValidationError("Invalid or expired access token.")
+
+        return attrs
