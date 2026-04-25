@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from utils.helpers import success, error
 from .serializers import (
     SignupSerializer,
     SigninSerializer,
@@ -10,7 +11,6 @@ from .serializers import (
     RefreshTokenSerializer,
     TokenVerifySerializer,
 )
-from utils.helpers import success, error
 
 # Signup view
 class SignupView(APIView):
