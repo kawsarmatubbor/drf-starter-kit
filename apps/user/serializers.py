@@ -17,11 +17,15 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 # User serializer
 class UserSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
+    profile = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'profile']
+        fields = ["id", "email", "profile"]
+
+    def get_profile(self, obj):
+        profile, _ = Profile.objects.get_or_create(user=obj)
+        return ProfileSerializer(profile).data
 
 # Signup serializer
 class SignupSerializer(serializers.ModelSerializer):
