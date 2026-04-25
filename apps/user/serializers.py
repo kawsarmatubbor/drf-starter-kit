@@ -56,7 +56,6 @@ class SigninSerializer(serializers.Serializer):
         password = attrs.get("password")
 
         user = authenticate(
-            request=self.context.get("request"),
             email=email,
             password=password,
         )
@@ -110,14 +109,14 @@ class RefreshTokenSerializer(serializers.Serializer):
 
 # Access token verify serializer
 class TokenVerifySerializer(serializers.Serializer):
-    token = serializers.CharField(write_only=True, required=True)
+    access = serializers.CharField(write_only=True, required=True)
 
     def validate(self, attrs):
-        access_token = attrs.get("token")
+        access_token = attrs.get("access")
 
         try:
             AccessToken(access_token)
         except TokenError:
-            raise serializers.ValidationError("Invalid or expired token.")
+            raise serializers.ValidationError("Invalid or expired access token.")
 
         return attrs

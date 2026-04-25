@@ -32,7 +32,7 @@ class SignupView(APIView):
 # Signin view
 class SigninView(APIView):
     def post(self, request):
-        serializer = SigninSerializer(data=request.data, context={"request": request})
+        serializer = SigninSerializer(data=request.data)
 
         if serializer.is_valid():
             tokens = serializer.validated_data["tokens"]
