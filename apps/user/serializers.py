@@ -1,11 +1,12 @@
 from datetime import timedelta
+from django.db import transaction
 from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken, TokenError
 from utils.helpers import generate_otp
-from utils.email_sender import send_password_reset_otp_email
+from utils.email_sender import send_password_reset_otp_email, send_signup_otp_email
 from .models import User, Profile, Verification
 
 # Profile serializer
@@ -35,6 +36,8 @@ class SignupSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password_2']:
             raise serializers.ValidationError("Passwords don't match.")
+        
+
         return attrs
 
     def create(self, validated_data):
@@ -47,6 +50,14 @@ class SignupSerializer(serializers.ModelSerializer):
             Profile.objects.create(user=user, **profile_data)
         else:
             Profile.objects.create(user=user)
+
+        verification = Verification.objects.create(
+            user=user,
+            otp=generate_otp(),
+            purpose="account_activation",
+        )
+
+        send_signup_otp_email(email=user.email, otp=verification.otp)
 
         return user
 
@@ -169,8 +180,6 @@ class ForgotPasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("User with this email does not exist.")
         
         ex_otp = Verification.objects.filter(user=user, purpose="password_reset").last()
-
-        print(timezone.now())
         
         if ex_otp:
             if ex_otp.created_at + timedelta(minutes=5) > timezone.now():
