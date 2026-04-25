@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from utils.helpers import success, error
 from .serializers import (
     SignupSerializer,
+    OtpVerifySerializer,
     SigninSerializer,
     SignoutSerializer,
     UserSerializer,
@@ -30,7 +31,25 @@ class SignupView(APIView):
             message="Signup failed.",
             errors=serializer.errors,
         )
-    
+
+# OTP verify view
+class OtpVerifyView(APIView):
+    def post(self, request):
+        serializer = OtpVerifySerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return success(
+                status_code=200,
+                message="OTP verified successfully.",
+            )
+        return error(
+            status_code=400,
+            message="OTP verification failed.",
+            errors=serializer.errors,
+        )
+
+
 # Signin view
 class SigninView(APIView):
     def post(self, request):

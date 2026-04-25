@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     SignupView,
+    OtpVerifyView,
     SigninView,
     SignoutView,
     ProfileView,
@@ -20,7 +21,7 @@ urlpatterns = [
     path('profile/', ProfileView.as_view(), name='profile'),
 
     # OTP
-    # path('otp/verify/', , name='otp_verify'),
+    path('otp/verify/', OtpVerifyView.as_view(), name='otp_verify'),
     # path('otp/resend/', , name='otp_resend'),
 
     # Password

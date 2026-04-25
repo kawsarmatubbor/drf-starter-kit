@@ -61,6 +61,60 @@ class SignupSerializer(serializers.ModelSerializer):
 
         return user
 
+# OTP verify serializer
+class OtpVerifySerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    otp = serializers.CharField(required=True, max_length=6)
+    purpose = serializers.ChoiceField(
+        required=True,
+        choices=Verification.PURPOSE_CHOICES,
+    )
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        otp = attrs.get("otp")
+        purpose = attrs.get("purpose")
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"email": ["User with this email does not exist."]})
+
+        verification = Verification.objects.filter(
+            user=user,
+            purpose=purpose,
+            is_verified=False,
+        ).last()
+
+        if not verification:
+            raise serializers.ValidationError(f"No pending OTP found.")
+
+        if verification.created_at + timedelta(minutes=5) <= timezone.now():
+            raise serializers.ValidationError("OTP has expired. Please request a new one.")
+
+        if verification.otp != otp:
+            raise serializers.ValidationError({"otp": ["Invalid OTP."]})
+
+        attrs["user"] = user
+        attrs["verification"] = verification
+        return attrs
+
+    @transaction.atomic
+    def save(self, **kwargs):
+        user = self.validated_data["user"]
+        verification = self.validated_data["verification"]
+        purpose = self.validated_data["purpose"]
+
+        verification.is_verified = True
+        verification.save(update_fields=["is_verified"])
+
+        if purpose == "account_activation":
+            user.is_active = True
+            user.save(update_fields=["is_active"])
+            verification.delete()
+
+        return user
+
 # Signin serializer
 class SigninSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
