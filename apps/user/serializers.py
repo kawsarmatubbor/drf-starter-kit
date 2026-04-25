@@ -307,3 +307,60 @@ class ForgotPasswordSerializer(serializers.Serializer):
         send_password_reset_otp_email(email=user.email, otp=verification.otp)
 
         return verification
+
+# Password reset serializer
+class PasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    new_password = serializers.CharField(
+        write_only=True,
+        required=True,
+        validators=[validate_password],
+    )
+    new_password_2 = serializers.CharField(write_only=True, required=True)
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        new_password = attrs.get("new_password")
+        new_password_2 = attrs.get("new_password_2")
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"email": ["User with this email does not exist."]})
+
+        if new_password != new_password_2:
+            raise serializers.ValidationError(
+                {"new_password_2": ["New passwords do not match."]}
+            )
+
+        verification = Verification.objects.filter(
+            user=user,
+            purpose="password_reset",
+            is_verified=True,
+        ).last()
+
+        if not verification:
+            raise serializers.ValidationError(
+                "Password reset OTP verification is required before resetting the password."
+            )
+
+        if verification.created_at + timedelta(minutes=5) <= timezone.now():
+            verification.delete()
+            raise serializers.ValidationError("Verified password reset OTP has expired. Please request a new one.")
+
+        validate_password(new_password, user=user)
+
+        attrs["user"] = user
+        attrs["verification"] = verification
+        return attrs
+
+    @transaction.atomic
+    def save(self, **kwargs):
+        user = self.validated_data["user"]
+        verification = self.validated_data["verification"]
+
+        user.set_password(self.validated_data["new_password"])
+        user.save(update_fields=["password"])
+        verification.delete()
+
+        return user

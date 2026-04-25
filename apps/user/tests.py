@@ -214,3 +214,87 @@ class OtpResendViewTests(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+class PasswordResetViewTests(APITestCase):
+    def setUp(self):
+        self.url = reverse("password_reset")
+        self.user = User.objects.create_user(
+            email="password-reset@example.com",
+            password="OldPass123!",
+            is_active=True,
+        )
+
+    def test_password_reset_updates_password_after_verified_otp(self):
+        verification = Verification.objects.create(
+            user=self.user,
+            otp="123456",
+            purpose="password_reset",
+            is_verified=True,
+        )
+
+        response = self.client.post(
+            self.url,
+            {
+                "email": self.user.email,
+                "new_password": "NewPass123!",
+                "new_password_2": "NewPass123!",
+            },
+            format="json",
+        )
+
+        self.user.refresh_from_db()
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(self.user.check_password("NewPass123!"))
+        self.assertFalse(Verification.objects.filter(pk=verification.pk).exists())
+
+    def test_password_reset_rejects_without_verified_otp(self):
+        Verification.objects.create(
+            user=self.user,
+            otp="123456",
+            purpose="password_reset",
+            is_verified=False,
+        )
+
+        response = self.client.post(
+            self.url,
+            {
+                "email": self.user.email,
+                "new_password": "NewPass123!",
+                "new_password_2": "NewPass123!",
+            },
+            format="json",
+        )
+
+        self.user.refresh_from_db()
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertTrue(self.user.check_password("OldPass123!"))
+
+    def test_password_reset_rejects_expired_verified_otp(self):
+        verification = Verification.objects.create(
+            user=self.user,
+            otp="123456",
+            purpose="password_reset",
+            is_verified=True,
+        )
+        Verification.objects.filter(pk=verification.pk).update(
+            created_at=timezone.now() - timedelta(minutes=6)
+        )
+
+        response = self.client.post(
+            self.url,
+            {
+                "email": self.user.email,
+                "new_password": "NewPass123!",
+                "new_password_2": "NewPass123!",
+            },
+            format="json",
+        )
+
+        self.user.refresh_from_db()
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertTrue(self.user.check_password("OldPass123!"))
+        self.assertFalse(Verification.objects.filter(pk=verification.pk).exists())

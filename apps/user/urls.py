@@ -8,6 +8,7 @@ from .views import (
     ProfileView,
     PasswordChangeView,
     ForgotPasswordView,
+    PasswordResetView,
     RefreshTokenView,
     TokenVerifyView,
 )
@@ -28,7 +29,7 @@ urlpatterns = [
     # Password
     path('password/change/', PasswordChangeView.as_view(), name='password_change'),
     path('password/forgot/', ForgotPasswordView.as_view(), name='password_forgot'),
-    # path('password/reset/', , name='password_reset'),
+    path('password/reset/', PasswordResetView.as_view(), name='password_reset'),
 
     # Token
     path('token/refresh/', RefreshTokenView.as_view(), name='token_refresh'),

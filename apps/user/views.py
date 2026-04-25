@@ -11,6 +11,7 @@ from .serializers import (
     ProfileSerializer,
     PasswordChangeSerializer,
     ForgotPasswordSerializer,
+    PasswordResetSerializer,
     RefreshTokenSerializer,
     TokenVerifySerializer,
 )
@@ -201,6 +202,23 @@ class ForgotPasswordView(APIView):
             return success(
                 status_code=200,
                 message="Password reset OTP sent successfully.",
+            )
+        return error(
+            status_code=400,
+            message="Password reset failed.",
+            errors=serializer.errors,
+        )
+
+# Password reset view
+class PasswordResetView(APIView):
+    def post(self, request):
+        serializer = PasswordResetSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return success(
+                status_code=200,
+                message="Password reset successful.",
             )
         return error(
             status_code=400,
