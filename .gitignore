@@ -1,5 +1,29 @@
-# ignore .env file
-.env
+# =====================
+# Virtual Environment
+# =====================
+.venv
+.venv/
+venv/
 
-# ignore database
+# =====================
+# Environment Variables
+# =====================
+.env
+.env.*
+!.env.example
+
+# =====================
+# Django stuff
+# =====================
 db.sqlite3
+
+# =====================
+# Editor
+# =====================
+.vscode/
+
+# =====================
+# Static / media
+# =====================
+media/
+staticfiles/
