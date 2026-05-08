@@ -26,5 +26,6 @@ if settings.DEBUG:
 
 urlpatterns += [
     path('api/', include('apps.user.urls')),
+    path('api/', include('apps.contact.urls')),
     path('', admin.site.urls),
 ]

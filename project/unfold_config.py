@@ -62,6 +62,16 @@ def get_unfold_settings():
                     },
                 ],
             },
+            {
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": "All Messages",
+                        "icon": "mail",
+                        "link": reverse_lazy("admin:contact_contact_changelist"),
+                    },
+                ],
+            },
         ],
     },
 }
