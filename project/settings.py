@@ -123,6 +123,10 @@ USE_TZ = True
 # STATIC FILES
 STATIC_URL = 'static/'
 
+# MEDIA FILES
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # CUSTOM USER
 AUTH_USER_MODEL = 'user.User'
 
