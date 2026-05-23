@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from utils.helpers import success, error
-from .models import HeroSection, ContactSection
-from .serializers import HeroSectionSerializer, ContactSectionSerializer, ContactMessageSerializer
+from .models import HeroSection, ContactSection, FAQSection, FAQQuestion
+from .serializers import HeroSectionSerializer, ContactSectionSerializer, ContactMessageSerializer, FAQSectionSerializer, FAQQuestionSerializer
 
 # Landing page views
 class LandingPageView(APIView):
@@ -23,16 +23,12 @@ class LandingPageView(APIView):
 class ContactPageView(APIView):
     def get(self, request):
         contact_section = ContactSection.objects.filter(is_active=True)
-        contact_serializer = ContactSectionSerializer(contact_section, many=True)
-
-        data = {
-            'contact_section': contact_serializer.data
-        }
+        serializer = ContactSectionSerializer(contact_section, many=True)
 
         return success(
             status_code=200,
             message='Contact page retrieved successfully',
-            data=data
+            data=serializer.data
         )
     
 # Contact message create view
@@ -52,4 +48,16 @@ class ContactMessageCreateView(APIView):
             status_code=400,
             message='Invalid data',
             errors=serializer.errors
+        )
+    
+# Faq page view
+class FAQPageView(APIView):
+    def get(self, request):
+        faq_section = FAQSection.objects.filter(is_active=True).last()
+        serializer = FAQSectionSerializer(faq_section)
+
+        return success(
+            status_code=200,
+            message='FAQ page retrieved successfully',
+            data=serializer.data
         )

@@ -43,3 +43,29 @@ class ContactMessage(models.Model):
     
     def __str__(self):
         return f"{self.name} - {self.subject}"
+    
+# Fnq section model
+class FAQSection(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    image = models.ImageField(upload_to='faq_images/')
+
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+    
+# Faq question model
+class FAQQuestion(models.Model):
+    faq_section = models.ForeignKey(FAQSection, on_delete=models.CASCADE, related_name='questions')
+    question = models.CharField(max_length=200)
+    answer = models.TextField()
+
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.question

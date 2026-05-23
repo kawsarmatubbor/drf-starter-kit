@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import reverse
 from unfold.admin import ModelAdmin
-from .models import HeroSection, ContactSection, ContactMessage
+from .models import HeroSection, ContactSection, ContactMessage, FAQSection, FAQQuestion
 
 # Hero section register in admin
 @admin.register(HeroSection)
@@ -48,3 +48,43 @@ class ContactMessageAdmin(ModelAdmin):
     search_fields = ['name', 'email', 'subject', 'message']
     fields = ['name', 'email', 'subject', 'message']
     readonly_fields = ['name', 'email', 'subject', 'message']
+
+# Faq section register in admin
+@admin.register(FAQSection)
+class FAQSectionAdmin(ModelAdmin):
+    list_display = ['title', 'is_active', 'created_at']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['title', 'description']
+    fields = ['title', 'description', 'image']
+
+    def has_add_permission(self, request):
+        return not FAQSection.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        obj = FAQSection.objects.first()
+
+        if obj:
+            url = reverse(
+                'admin:page_faqsection_change',
+                args=[obj.id]
+            )
+            return redirect(url)
+
+        return redirect(
+            reverse('admin:page_faqsection_add')
+        )
+    
+# Faq question register in admin
+@admin.register(FAQQuestion)
+class FAQQuestionAdmin(ModelAdmin):
+    list_display = ['faq_section', 'question', 'is_active', 'created_at']
+    list_filter = ['faq_section', 'is_active', 'created_at']
+    search_fields = ['question', 'answer']
+    fields = ['question', 'answer']
+
+    def save_model(self, request, obj, form, change):
+        obj.faq_section = FAQSection.objects.filter(is_active=True).last()
+        super().save_model(request, obj, form, change)

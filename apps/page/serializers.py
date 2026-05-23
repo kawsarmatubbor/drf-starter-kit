@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import HeroSection, ContactSection, ContactMessage
+from .models import HeroSection, ContactSection, ContactMessage, FAQSection, FAQQuestion
+from django.utils import timezone
 
 # Hero section serializer
 class HeroSectionSerializer(serializers.ModelSerializer):
@@ -19,3 +20,18 @@ class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactMessage
         fields = ['id', 'name', 'email', 'subject', 'message']
+
+
+# Faq question serializer
+class FAQQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FAQQuestion
+        fields = ['id', 'question', 'answer']
+
+# Faq section serializer
+class FAQSectionSerializer(serializers.ModelSerializer):
+    questions = FAQQuestionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = FAQSection
+        fields = ['id', 'title', 'description', 'image', 'questions']
