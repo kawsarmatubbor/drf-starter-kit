@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
+from .unfold_configs import UNFOLD
 
 load_dotenv()
 
@@ -57,6 +58,10 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    # Unfold 
+    "unfold",
+
+    # Default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

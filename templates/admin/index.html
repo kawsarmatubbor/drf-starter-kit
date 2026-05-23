@@ -1,0 +1,70 @@
+{% extends 'admin/base.html' %}
+
+{% load i18n unfold %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+    {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="flex flex-col lg:flex-row lg:gap-8">
+        <div class="grow">
+            <div class="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                <div class="bg-white block border border-base-200 p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary-600 text-4xl dark:text-primary-500">group</span>
+                        <div>
+                            <p class="text-sm text-base-500 dark:text-base-400">Total users</p>
+                            <p class="font-semibold mt-1 text-3xl text-important">{{ user_count }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white block border border-base-200 p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary-600 text-4xl dark:text-green-500">verified_user</span>
+                        <div>
+                            <p class="text-sm text-base-500 dark:text-base-400">Active users</p>
+                            <p class="font-semibold mt-1 text-3xl text-important">{{ active_user_count }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                {% component "unfold/components/card.html" with title="Monthly user registrations" %}
+                    {% component "unfold/components/chart/line.html" with data=user_registration_chart options=user_registration_chart_options height=320 %}{% endcomponent %}
+                {% endcomponent %}
+            </div>
+        </div>
+
+        <div class="lg:w-96 xl:w-[28rem]">
+            <div class="bg-white border border-base-200 mb-6 p-4 rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
+                <div class="flex items-center mb-4">
+                    <span class="material-symbols-outlined mr-2 text-primary-600 dark:text-primary-500">calendar_month</span>
+                    <h2 class="font-semibold text-sm text-important">{{ calendar_month }}</h2>
+                </div>
+
+                <div class="grid grid-cols-7 gap-1 text-center">
+                    {% for weekday in calendar_weekdays %}
+                        <div class="py-1 text-xs font-medium text-base-500 dark:text-base-400">{{ weekday }}</div>
+                    {% endfor %}
+
+                    {% for week in calendar_weeks %}
+                        {% for day in week %}
+                            {% if day %}
+                                <div class="{% if day == calendar_today %}bg-primary-600 text-white{% else %}text-font-default-light dark:text-font-default-dark{% endif %} flex h-10 items-center justify-center rounded-default text-sm">
+                                    {{ day }}
+                                </div>
+                            {% else %}
+                                <div class="h-10"></div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
