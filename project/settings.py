@@ -76,6 +76,7 @@ INSTALLED_APPS = [
 
     # Modules
     'apps.user',
+    'apps.page',
 ]
 
 MIDDLEWARE = [

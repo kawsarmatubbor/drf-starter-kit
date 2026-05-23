@@ -102,6 +102,17 @@ UNFOLD = {
                 ],
             },
             {
+                "title": "Landing page",
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Hero Sections",
+                        "icon": "view_carousel",
+                        "link": reverse_lazy("admin:page_herosection_changelist"),
+                    },
+                ],
+            },
+            {
                 "title": "Authentication",
                 "collapsible": True,
                 "items": [
