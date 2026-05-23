@@ -113,6 +113,22 @@ UNFOLD = {
                 ],
             },
             {
+                "title": "Contact page",
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Contact Section",
+                        "icon": "contact_mail",
+                        "link": reverse_lazy("admin:page_contactsection_changelist"),
+                    },
+                    {
+                        "title": "Contact Messages",
+                        "icon": "message",
+                        "link": reverse_lazy("admin:page_contactmessage_changelist"),
+                    },
+                ],
+            },
+            {
                 "title": "Authentication",
                 "collapsible": True,
                 "items": [
