@@ -145,6 +145,15 @@ UNFOLD = {
                 ],
             },
             {
+                "items": [
+                    {
+                        "title": "Other Page Sections",
+                        "icon": "description",
+                        "link": reverse_lazy("admin:page_otherpage_changelist"),
+                    },
+                ],
+            },
+            {
                 "title": "Authentication",
                 "collapsible": True,
                 "items": [

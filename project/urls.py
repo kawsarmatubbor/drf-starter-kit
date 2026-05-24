@@ -22,6 +22,7 @@ from django.urls import path, include
 urlpatterns = [
     path('api/', include('apps.user.urls')),
     path('api/', include('apps.page.urls')),
+    # path("ckeditor5/", include("django_ckeditor.urls")),
 ]
 
 if settings.DEBUG:

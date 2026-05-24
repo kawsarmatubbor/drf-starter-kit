@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import reverse
 from unfold.admin import ModelAdmin
-from .models import HeroSection, ContactSection, ContactMessage, FAQSection, FAQQuestion
+from .models import HeroSection, ContactSection, ContactMessage, FAQSection, FAQQuestion, OtherPage
 
 # Hero section register in admin
 @admin.register(HeroSection)
@@ -88,3 +88,12 @@ class FAQQuestionAdmin(ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.faq_section = FAQSection.objects.filter(is_active=True).last()
         super().save_model(request, obj, form, change)
+
+# Other page register in admin
+@admin.register(OtherPage)
+class OtherPageAdmin(ModelAdmin):
+    list_display = ['title', 'slug', 'is_active']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['title', 'content']
+    fields = ['title', 'slug', 'content']
+    prepopulated_fields = {'slug': ('title',)}

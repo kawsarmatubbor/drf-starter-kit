@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.text import slugify
+from ckeditor.fields import RichTextField
 
 # Hero section model
 class HeroSection(models.Model):
@@ -69,3 +71,29 @@ class FAQQuestion(models.Model):
 
     def __str__(self):
         return self.question
+    
+
+# Other page
+class OtherPage(models.Model):
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, blank=True)
+    content = RichTextField()
+
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        base_slug = slugify(self.title)
+        slug = base_slug
+        counter = 1
+
+        while OtherPage.objects.filter(slug=slug).exclude(id=self.id).exists():
+            slug = f"{base_slug}-{counter}"
+            counter += 1
+
+        self.slug = slug
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
