@@ -158,6 +158,21 @@ UNFOLD = {
     "DASHBOARD_CALLBACK": "project.unfold_configs.dashboard_callback",
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": False,
+    "COLORS": {
+        "primary": {
+            "50": "oklch(98.2% .018 155)",
+            "100": "oklch(96.2% .044 156)",
+            "200": "oklch(92.5% .084 155)",
+            "300": "oklch(87.1% .15 154)",
+            "400": "oklch(79.2% .209 151)",
+            "500": "oklch(72.3% .219 149)",
+            "600": "oklch(62.7% .194 149)",
+            "700": "oklch(52.7% .154 150)",
+            "800": "oklch(44.8% .119 151)",
+            "900": "oklch(39.3% .095 152)",
+            "950": "oklch(26.6% .065 153)",
+        },
+    },
     "SIDEBAR": {
         "show_search": True,
         "show_all_applications": False,
