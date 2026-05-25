@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from utils.helpers import success, error
-from .models import HeroSection, ContactSection, FAQSection, FAQQuestion
-from .serializers import HeroSectionSerializer, ContactSectionSerializer, ContactMessageSerializer, FAQSectionSerializer, FAQQuestionSerializer
+from .models import HeroSection, ContactSection, FAQSection, OtherPage 
+from .serializers import HeroSectionSerializer, ContactSectionSerializer, ContactMessageSerializer, FAQSectionSerializer, OtherPageSerializer
 
 # Landing page views
 class LandingPageView(APIView):
@@ -59,5 +59,36 @@ class FAQPageView(APIView):
         return success(
             status_code=200,
             message='FAQ page retrieved successfully',
+            data=serializer.data
+        )
+    
+# Other page list view
+class OtherPageListView(APIView):
+    def get(self, request):
+        other_pages = OtherPage.objects.filter(is_active=True)
+        serializer = OtherPageSerializer(other_pages, many=True)
+
+        return success(
+            status_code=200,
+            message='Other pages retrieved successfully',
+            data=serializer.data
+        )
+    
+# Other page detail view
+class OtherPageDetailView(APIView):
+    def get(self, request, slug):
+        try:
+            other_page = OtherPage.objects.get(slug = slug, is_active=True)
+        except OtherPage.DoesNotExist:
+            return error(
+                status_code=404,
+                message='Other page not found'
+            )
+
+        serializer = OtherPageSerializer(other_page)
+
+        return success(
+            status_code=200,
+            message='Other page retrieved successfully',
             data=serializer.data
         )

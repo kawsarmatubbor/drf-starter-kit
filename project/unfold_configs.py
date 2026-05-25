@@ -134,7 +134,7 @@ UNFOLD = {
                 "items": [
                     {
                         "title": "FAQ Section",
-                        "icon": "help_outline",
+                        "icon": "quiz",
                         "link": reverse_lazy("admin:page_faqsection_changelist"),
                     },
                     {
@@ -147,7 +147,7 @@ UNFOLD = {
             {
                 "items": [
                     {
-                        "title": "Other Page Sections",
+                        "title": "Other Pages",
                         "icon": "description",
                         "link": reverse_lazy("admin:page_otherpage_changelist"),
                     },
