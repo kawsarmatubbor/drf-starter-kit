@@ -53,6 +53,7 @@ def dashboard_callback(request, context):
     from django.db.models import Count
     from django.db.models.functions import TruncMonth
     from django.utils import timezone
+    from apps.page.models import ContactMessage
     from apps.page.models import OtherPage
 
     User = get_user_model()
@@ -76,6 +77,8 @@ def dashboard_callback(request, context):
 
     context["user_count"] = User.objects.count()
     context["active_user_count"] = User.objects.filter(is_active=True).count()
+    context["other_page_count"] = OtherPage.objects.filter(is_active=True).count()
+    context["contact_message_count"] = ContactMessage.objects.filter(is_active=True).count()
     context["user_changelist_url"] = reverse_lazy("admin:user_user_changelist")
     context["recent_users"] = [
         {
