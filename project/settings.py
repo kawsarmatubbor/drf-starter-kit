@@ -193,7 +193,13 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
-        'height': 300,
         'width': '100%',
+        'extraPlugins': 'autogrow',
+        'removePlugins': 'resize',
+        'autoGrow_onStartup': True,
+        'autoGrow_minHeight': 300,
+        'autoGrow_maxHeight': 1200,
+        'autoGrow_bottomSpace': 40,
+        'contentsCss': [STATIC_URL + 'admin/css/ckeditor-content.css?v=2'],
     },
 }

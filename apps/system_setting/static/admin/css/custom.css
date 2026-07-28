@@ -1,0 +1,168 @@
+.change-form #content,
+.change-form #content-main,
+.change-form form,
+.change-form fieldset,
+.change-form .aligned,
+.change-form .form-row,
+.change-form .field-row,
+.change-form .field-line,
+.change-form .field-line > div,
+.change-form .field-line > .grow,
+.change-form .field-line > .grow > div,
+.change-form .max-w-4xl {
+    max-width: none !important;
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+.change-form .field-line > .grow > .max-w-2xl {
+    max-width: none !important;
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+.change-form .field-line > .grow > .max-w-48,
+.change-form .field-line > .grow a.block.max-w-48 {
+    max-width: 12rem !important;
+    width: 12rem !important;
+}
+
+.change-form .field-line > .grow img {
+    height: auto !important;
+    max-height: 8rem !important;
+    max-width: 12rem !important;
+    object-fit: contain !important;
+    width: auto !important;
+}
+
+.change-form .field-line {
+    align-items: stretch !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+}
+
+.change-form .field-line > div:first-child {
+    margin-top: 0 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+.change-form .field-line label {
+    display: inline-block !important;
+    margin-bottom: 0 !important;
+}
+
+.change-form input[type="text"],
+.change-form input[type="email"],
+.change-form input[type="url"],
+.change-form input[type="password"],
+.change-form input[type="number"],
+.change-form input[type="search"],
+.change-form input[type="tel"],
+.change-form input[type="date"],
+.change-form input[type="datetime-local"],
+.change-form input[type="time"],
+.change-form select,
+.change-form textarea,
+.change-form .vTextField,
+.change-form .vURLField,
+.change-form .vIntegerField,
+.change-form .vDecimalField,
+.change-form .vLargeTextField,
+.change-form .django-ckeditor-widget,
+.change-form .related-widget-wrapper,
+.change-form .select2-container {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.change-form .cke,
+.change-form .cke_inner,
+.change-form .cke_top,
+.change-form .cke_toolgroup,
+.change-form .cke_combo_button,
+.change-form .cke_button,
+.change-form .cke_bottom,
+.change-form .cke_contents,
+.change-form .cke_wysiwyg_frame,
+.change-form .cke_wysiwyg_div {
+    background: transparent !important;
+}
+
+.change-form .django-ckeditor-widget,
+.change-form .cke {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+.change-form .cke {
+    border: 1px solid var(--color-base-200) !important;
+    border-radius: var(--border-radius, 0.375rem) !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+}
+
+.dark .change-form .cke {
+    border-color: var(--color-base-700) !important;
+}
+
+.change-form .cke_inner {
+    border-radius: inherit !important;
+    overflow: hidden !important;
+}
+
+.change-form .cke_top {
+    border-bottom: 1px solid var(--color-base-200) !important;
+}
+
+.dark .change-form .cke_top {
+    border-bottom-color: var(--color-base-700) !important;
+}
+
+.change-form .cke_bottom {
+    border-top: 1px solid var(--color-base-200) !important;
+}
+
+.dark .change-form .cke_bottom {
+    border-top-color: var(--color-base-700) !important;
+}
+
+.dark .change-form .cke,
+.dark .change-form .cke *,
+.dark .change-form .cke a,
+.dark .change-form .cke span,
+.dark .change-form .cke label {
+    color: #fff !important;
+}
+
+.dark .change-form .cke_button_icon,
+.dark .change-form .cke_button_arrow,
+.dark .change-form .cke_combo_arrow,
+.dark .change-form .cke_toolgroup a,
+.dark .change-form .cke_toolgroup span {
+    filter: brightness(0) invert(1) !important;
+    opacity: 1 !important;
+}
+
+.dark .change-form .cke_combo_text,
+.dark .change-form .cke_path_item,
+.dark .change-form .cke_resizer,
+.dark .change-form .cke_toolbar_separator {
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+.dark .change-form .cke_button:hover,
+.dark .change-form .cke_button_on,
+.dark .change-form .cke_combo_button:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.change-form .cke_source {
+    background: transparent !important;
+}
+
+.dark .change-form .cke_source {
+    background: transparent !important;
+    color: #fff !important;
+}

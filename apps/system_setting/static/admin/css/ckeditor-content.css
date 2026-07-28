@@ -1,0 +1,5 @@
+html,
+body,
+body.cke_editable {
+    background: transparent !important;
+}
