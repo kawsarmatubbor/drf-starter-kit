@@ -72,6 +72,9 @@ def dashboard_callback(request, context):
     months = [add_months(first_month, index) for index in range(12)]
     labels = [f"{month_abbr[month.month]} {month.year}" for month in months]
     totals = [registrations_by_month.get(month, 0) for month in months]
+    recent_months = months[-4:]
+    recent_labels = [f"{month_abbr[month.month]} {month.year}" for month in recent_months]
+    recent_totals = [registrations_by_month.get(month, 0) for month in recent_months]
     today = timezone.localdate()
     calendar_weeks = Calendar(firstweekday=6).monthdayscalendar(today.year, today.month)
 
@@ -126,7 +129,40 @@ def dashboard_callback(request, context):
             ],
         }
     )
+    context["recent_user_registration_chart"] = json.dumps(
+        {
+            "labels": recent_labels,
+            "datasets": [
+                {
+                    "label": "Registrations",
+                    "data": recent_totals,
+                    "borderColor": "var(--color-primary-600)",
+                    "backgroundColor": "var(--color-primary-100)",
+                    "fill": True,
+                    "tension": 0.35,
+                },
+            ],
+        }
+    )
     context["user_registration_chart_options"] = json.dumps(
+        {
+            "maintainAspectRatio": False,
+            "plugins": {
+                "legend": {
+                    "display": False,
+                },
+            },
+            "scales": {
+                "y": {
+                    "beginAtZero": True,
+                    "ticks": {
+                        "precision": 0,
+                    },
+                },
+            },
+        }
+    )
+    context["recent_user_registration_chart_options"] = json.dumps(
         {
             "maintainAspectRatio": False,
             "plugins": {

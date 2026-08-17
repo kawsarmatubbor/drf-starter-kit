@@ -9,58 +9,77 @@
 {% endblock %}
 
 {% block content %}
-    <div class="flex flex-col lg:flex-row lg:gap-8">
-        <div class="grow">
-            <div class="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                <div class="bg-white block border border-base-200 p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
+    <div class="flex flex-col gap-6 overflow-x-hidden lg:flex-row lg:gap-8">
+        <div class="min-w-0 flex-1">
+            <div class="mb-6 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+                <div class="bg-white block border border-base-200 p-4 sm:p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 min-w-0">
                     <div class="flex items-center gap-4">
-                        <span class="material-symbols-outlined text-primary-600 text-4xl dark:text-primary-500">group</span>
+                        <span class="material-symbols-outlined text-primary-600 text-3xl sm:text-4xl dark:text-primary-500">group</span>
                         <div>
                             <p class="text-sm text-base-500 dark:text-base-400">Total users</p>
-                            <p class="font-semibold mt-1 text-3xl text-important">{{ user_count }}</p>
+                            <p class="font-semibold mt-1 text-2xl sm:text-3xl text-important">{{ user_count }}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white block border border-base-200 p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
+                <div class="bg-white block border border-base-200 p-4 sm:p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 min-w-0">
                     <div class="flex items-center gap-4">
-                        <span class="material-symbols-outlined text-primary-600 text-4xl dark:text-green-500">verified_user</span>
+                        <span class="material-symbols-outlined text-primary-600 text-3xl sm:text-4xl dark:text-green-500">verified_user</span>
                         <div>
                             <p class="text-sm text-base-500 dark:text-base-400">Active users</p>
-                            <p class="font-semibold mt-1 text-3xl text-important">{{ active_user_count }}</p>
+                            <p class="font-semibold mt-1 text-2xl sm:text-3xl text-important">{{ active_user_count }}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white block border border-base-200 p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
+                <div class="bg-white block border border-base-200 p-4 sm:p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 min-w-0">
                     <div class="flex items-center gap-4">
-                        <span class="material-symbols-outlined text-primary-600 text-4xl dark:text-green-500">description</span>
+                        <span class="material-symbols-outlined text-primary-600 text-3xl sm:text-4xl dark:text-green-500">description</span>
                         <div>
                             <p class="text-sm text-base-500 dark:text-base-400">Total pages</p>
-                            <p class="font-semibold mt-1 text-3xl text-important">{{ other_page_count }}</p>
+                            <p class="font-semibold mt-1 text-2xl sm:text-3xl text-important">{{ other_page_count }}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white block border border-base-200 p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
+                <div class="bg-white block border border-base-200 p-4 sm:p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 min-w-0">
                     <div class="flex items-center gap-4">
-                        <span class="material-symbols-outlined text-primary-600 text-4xl dark:text-green-500">mail</span>
+                        <span class="material-symbols-outlined text-primary-600 text-3xl sm:text-4xl dark:text-green-500">mail</span>
                         <div>
                             <p class="text-sm text-base-500 dark:text-base-400">Contact messages</p>
-                            <p class="font-semibold mt-1 text-3xl text-important">{{ contact_message_count }}</p>
+                            <p class="font-semibold mt-1 text-2xl sm:text-3xl text-important">{{ contact_message_count }}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="mb-6">
+            <div class="mb-6 min-w-0">
                 {% component "unfold/components/card.html" with title="Monthly user registrations" %}
-                    {% component "unfold/components/chart/line.html" with data=user_registration_chart options=user_registration_chart_options height=320 %}{% endcomponent %}
+                    <div class="mobile-registration-chart block md:hidden">
+                        {% component "unfold/components/chart/line.html" with data=recent_user_registration_chart options=recent_user_registration_chart_options height=220 %}{% endcomponent %}
+                    </div>
+                    <div class="mobile-registration-chart-desktop hidden md:block">
+                        {% component "unfold/components/chart/line.html" with data=user_registration_chart options=user_registration_chart_options height=320 %}{% endcomponent %}
+                    </div>
                 {% endcomponent %}
             </div>
 
+            <style>
+                @media (max-width: 767px) {
+                    .mobile-registration-chart-desktop {
+                        display: none !important;
+                    }
+                }
+
+                @media (min-width: 768px) {
+                    .mobile-registration-chart {
+                        display: none !important;
+                    }
+                }
+            </style>
+
             <div class="mb-6 grid gap-4 xl:grid-cols-2">
-                <div class="bg-white border border-base-200 rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
+                <div class="bg-white border border-base-200 rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 min-w-0">
                     <div class="border-b border-base-200 flex items-center justify-between px-4 py-3 dark:border-base-800">
                         <div class="flex items-center">
                             <span class="material-symbols-outlined mr-2 text-primary-600 dark:text-primary-500">group</span>
@@ -102,7 +121,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white border border-base-200 rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
+                <div class="bg-white border border-base-200 rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 min-w-0">
                     <div class="border-b border-base-200 flex items-center justify-between px-4 py-3 dark:border-base-800">
                         <div class="flex items-center">
                             <span class="material-symbols-outlined mr-2 text-primary-600 dark:text-primary-500">description</span>
@@ -146,26 +165,26 @@
             </div>
         </div>
 
-        <div class="lg:w-96 xl:w-[28rem]">
+        <div class="w-full min-w-0 lg:w-96 xl:w-[28rem]">
             <div class="bg-white border border-base-200 mb-6 p-4 rounded-default shadow-xs dark:bg-base-900 dark:border-base-800">
                 <div class="flex items-center mb-4">
                     <span class="material-symbols-outlined mr-2 text-primary-600 dark:text-primary-500">calendar_month</span>
                     <h2 class="font-semibold text-sm text-important">{{ calendar_month }}</h2>
                 </div>
 
-                <div class="grid grid-cols-7 gap-1 text-center">
+                <div class="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm">
                     {% for weekday in calendar_weekdays %}
-                        <div class="py-1 text-xs font-medium text-base-500 dark:text-base-400">{{ weekday }}</div>
+                        <div class="py-1 font-medium text-base-500 dark:text-base-400">{{ weekday }}</div>
                     {% endfor %}
 
                     {% for week in calendar_weeks %}
                         {% for day in week %}
                             {% if day %}
-                                <div class="{% if day == calendar_today %}bg-primary-600 text-white{% else %}text-font-default-light dark:text-font-default-dark{% endif %} flex h-10 items-center justify-center rounded-default text-sm">
+                                <div class="{% if day == calendar_today %}bg-primary-600 text-white{% else %}text-font-default-light dark:text-font-default-dark{% endif %} flex h-9 sm:h-10 items-center justify-center rounded-default">
                                     {{ day }}
                                 </div>
                             {% else %}
-                                <div class="h-10"></div>
+                                <div class="h-9 sm:h-10"></div>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
