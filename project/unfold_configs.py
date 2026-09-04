@@ -250,18 +250,11 @@ UNFOLD = {
                 ],
             },
             {
-                "title": "FAQ page",
-                "collapsible": True,
                 "items": [
                     {
                         "title": "FAQ Section",
                         "icon": "quiz",
                         "link": reverse_lazy("admin:page_faqsection_changelist"),
-                    },
-                    {
-                        "title": "FAQ Questions",
-                        "icon": "help",
-                        "link": reverse_lazy("admin:page_faqquestion_changelist"),
                     }
                 ],
             },

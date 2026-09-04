@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import reverse
-from unfold.admin import ModelAdmin
+from unfold.admin import ModelAdmin, StackedInline
 from .models import HeroSection, ContactSection, ContactMessage, FAQSection, FAQQuestion, OtherPage
 
 # Hero section register in admin
@@ -49,6 +49,14 @@ class ContactMessageAdmin(ModelAdmin):
     fields = ['name', 'email', 'subject', 'message']
     readonly_fields = ['name', 'email', 'subject', 'message']
 
+# FAQ questions displayed vertically inside the FAQ section form
+class FAQQuestionInline(StackedInline):
+    model = FAQQuestion
+    fields = ['question', 'answer', 'is_active']
+    extra = 1
+    ordering = ['created_at']
+
+
 # Faq section register in admin
 @admin.register(FAQSection)
 class FAQSectionAdmin(ModelAdmin):
@@ -56,6 +64,7 @@ class FAQSectionAdmin(ModelAdmin):
     list_filter = ['is_active', 'created_at']
     search_fields = ['title', 'description']
     fields = ['title', 'description', 'image']
+    inlines = [FAQQuestionInline]
 
     def has_add_permission(self, request):
         return not FAQSection.objects.exists()
@@ -77,18 +86,6 @@ class FAQSectionAdmin(ModelAdmin):
             reverse('admin:page_faqsection_add')
         )
     
-# Faq question register in admin
-@admin.register(FAQQuestion)
-class FAQQuestionAdmin(ModelAdmin):
-    list_display = ['faq_section', 'question', 'is_active', 'created_at']
-    list_filter = ['faq_section', 'is_active', 'created_at']
-    search_fields = ['question', 'answer']
-    fields = ['question', 'answer']
-
-    def save_model(self, request, obj, form, change):
-        obj.faq_section = FAQSection.objects.filter(is_active=True).last()
-        super().save_model(request, obj, form, change)
-
 # Other page register in admin
 @admin.register(OtherPage)
 class OtherPageAdmin(ModelAdmin):
