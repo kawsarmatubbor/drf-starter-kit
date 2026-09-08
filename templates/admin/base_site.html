@@ -11,5 +11,10 @@
 
 {% block extrastyle %}
     {{ block.super }}
-    <link href="{% static 'admin/css/custom.css' %}?v=14" rel="stylesheet">
+    <link href="{% static 'admin/css/custom.css' %}?v=15" rel="stylesheet">
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="{% static 'admin/js/ckeditor-theme.js' %}?v=1" defer></script>
 {% endblock %}

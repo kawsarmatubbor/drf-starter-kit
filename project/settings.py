@@ -200,6 +200,6 @@ CKEDITOR_CONFIGS = {
         'autoGrow_minHeight': 300,
         'autoGrow_maxHeight': 1200,
         'autoGrow_bottomSpace': 40,
-        'contentsCss': [STATIC_URL + 'admin/css/ckeditor-content.css?v=2'],
+        'contentsCss': ['/static/admin/css/ckeditor-content.css?v=5'],
     },
 }
