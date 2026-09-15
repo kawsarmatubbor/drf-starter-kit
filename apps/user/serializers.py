@@ -114,7 +114,8 @@ class OtpVerifySerializer(serializers.Serializer):
 
         if purpose == "account_activation":
             user.is_active = True
-            user.save(update_fields=["is_active"])
+            user.is_email_verified = True
+            user.save(update_fields=["is_active", "is_email_verified"])
             verification.delete()
 
         return user
@@ -180,19 +181,23 @@ class SigninSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True, required=True)
 
     def validate(self, attrs):
-        email = attrs.get("email")
+        email = User.objects.normalize_email(attrs.get("email"))
         password = attrs.get("password")
 
-        user = authenticate(
-            email=email,
-            password=password,
-        )
+        user = User.objects.filter(email=email).first()
 
-        if not user:
+        if user is None or not user.check_password(password):
             raise serializers.ValidationError("Invalid email or password.")
+
+        if not user.is_email_verified:
+            raise serializers.ValidationError("Your email is not verified.")
 
         if not user.is_active:
             raise serializers.ValidationError("Your account is inactive.")
+
+        user = authenticate(email=email, password=password)
+        if not user:
+            raise serializers.ValidationError("Invalid email or password.")
 
         refresh = RefreshToken.for_user(user)
 
