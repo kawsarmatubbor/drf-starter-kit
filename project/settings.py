@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    'ckeditor',
+    'django_ckeditor_5',
 
     # Modules
     'apps.user',
@@ -190,17 +190,18 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'your-email@gmail.com')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'your-app-password') 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 
-# CKEditor
-CKEDITOR_CONFIGS = {
+# CKEditor 5
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"
+CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar': 'full',
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+            'insertTable', 'imageUpload', 'mediaEmbed', '|',
+            'undo', 'redo',
+        ],
+        'height': 300,
         'width': '100%',
-        'extraPlugins': 'autogrow',
-        'removePlugins': 'resize',
-        'autoGrow_onStartup': True,
-        'autoGrow_minHeight': 300,
-        'autoGrow_maxHeight': 1200,
-        'autoGrow_bottomSpace': 40,
-        'contentsCss': ['/static/admin/css/ckeditor-content.css?v=5'],
     },
 }

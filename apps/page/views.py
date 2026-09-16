@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from utils.helpers import success, error
+from utils.response import success, error
 from .models import HeroSection, ContactSection, FAQSection, OtherPage 
 from .serializers import HeroSectionSerializer, ContactSectionSerializer, ContactMessageSerializer, FAQSectionSerializer, OtherPageSerializer
 

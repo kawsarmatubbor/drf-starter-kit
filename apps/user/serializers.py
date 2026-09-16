@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken, TokenError
-from utils.helpers import generate_otp
-from utils.email_sender import send_password_reset_otp_email, send_signup_otp_email
+from utils.email import send_password_reset_otp_email, send_signup_otp_email
+from utils.otp import generate_otp
 from .models import User, Profile, Verification
 
 # Profile serializer

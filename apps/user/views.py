@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from utils.helpers import success, error
+from utils.email import EmailDeliveryError
+from utils.response import success, error
 from .serializers import (
     SignupSerializer,
     OtpVerifySerializer,
@@ -22,7 +23,14 @@ class SignupView(APIView):
         serializer = SignupSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
+            try:
+                serializer.save()
+            except EmailDeliveryError:
+                return error(
+                    status_code=503,
+                    message="Signup is temporarily unavailable.",
+                    errors={"email": ["Unable to send OTP email. Please try again later."]},
+                )
             return success(
                 status_code=201,
                 message="Signup successful.",
@@ -57,7 +65,14 @@ class OtpResendView(APIView):
         serializer = OtpResendSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
+            try:
+                serializer.save()
+            except EmailDeliveryError:
+                return error(
+                    status_code=503,
+                    message="OTP resend is temporarily unavailable.",
+                    errors={"email": ["Unable to send OTP email. Please try again later."]},
+                )
             return success(
                 status_code=200,
                 message="OTP sent successfully.",
@@ -160,7 +175,14 @@ class ForgotPasswordView(APIView):
         serializer = ForgotPasswordSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
+            try:
+                serializer.save()
+            except EmailDeliveryError:
+                return error(
+                    status_code=503,
+                    message="Password reset is temporarily unavailable.",
+                    errors={"email": ["Unable to send OTP email. Please try again later."]},
+                )
             return success(
                 status_code=200,
                 message="Password reset OTP sent successfully.",

@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from utils.helpers import success
+from utils.response import success
 from .models import Identity, SocialMedia
 from .serializers import IdentitySerializer, SocialMediaSerializer
 

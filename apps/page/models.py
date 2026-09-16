@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 
 # Hero section model
 class HeroSection(models.Model):
@@ -77,7 +77,7 @@ class FAQQuestion(models.Model):
 class OtherPage(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
-    content = RichTextField()
+    content = CKEditor5Field()
 
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
