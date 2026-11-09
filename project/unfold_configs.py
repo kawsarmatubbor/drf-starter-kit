@@ -107,6 +107,16 @@ def dashboard_callback(request, context):
         }
         for page in OtherPage.objects.order_by("-created_at")[:5]
     ]
+    context["recent_contact_messages"] = [
+        {
+            "name": msg.name,
+            "email": msg.email,
+            "subject": msg.subject,
+            "created_at": msg.created_at,
+            "url": reverse_lazy("admin:page_contactmessage_change", args=[msg.pk]),
+        }
+        for msg in ContactMessage.objects.order_by("-created_at")[:5]
+    ]
     context["recent_activities"] = [
         {
             "user": activity.user,

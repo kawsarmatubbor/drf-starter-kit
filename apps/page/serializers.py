@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import HeroSection, ContactSection, ContactMessage, FAQSection, FAQQuestion, OtherPage
-from django.utils import timezone
 
 # Hero section serializer
 class HeroSectionSerializer(serializers.ModelSerializer):

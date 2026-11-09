@@ -7,25 +7,17 @@ from unfold.widgets import UnfoldAdminImageFieldWidget
 from .models import Identity, SocialMedia
 
 
-class IdentityImageFieldWidget(UnfoldAdminImageFieldWidget):
-    template_name = 'admin/widgets/identity_image_input.html'
-
-
 class IdentityAdminForm(forms.ModelForm):
-    logo = forms.ImageField(required=False, widget=IdentityImageFieldWidget)
-    fav_icon = forms.ImageField(required=False, widget=IdentityImageFieldWidget)
+    logo = forms.ImageField(required=False, widget=UnfoldAdminImageFieldWidget)
+    fav_icon = forms.ImageField(required=False, widget=UnfoldAdminImageFieldWidget)
 
     class Meta:
         model = Identity
         fields = '__all__'
 
 
-class SocialMediaImageFieldWidget(UnfoldAdminImageFieldWidget):
-    template_name = 'admin/widgets/identity_image_input.html'
-
-
 class SocialMediaAdminForm(forms.ModelForm):
-    icon = forms.ImageField(required=False, widget=SocialMediaImageFieldWidget)
+    icon = forms.ImageField(required=False, widget=UnfoldAdminImageFieldWidget)
 
     class Meta:
         model = SocialMedia

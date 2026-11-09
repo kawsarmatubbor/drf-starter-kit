@@ -6,12 +6,8 @@ from unfold.widgets import UnfoldAdminImageFieldWidget
 from .models import User, Profile
 
 
-class AvatarImageFieldWidget(UnfoldAdminImageFieldWidget):
-    template_name = 'admin/widgets/avatar_image_input.html'
-
-
 class ProfileInlineForm(forms.ModelForm):
-    avatar = forms.ImageField(required=False, widget=AvatarImageFieldWidget)
+    avatar = forms.ImageField(required=False, widget=UnfoldAdminImageFieldWidget)
 
     class Meta:
         model = Profile
