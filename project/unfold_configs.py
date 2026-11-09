@@ -2,23 +2,29 @@ from django.urls import reverse_lazy
 
 
 def get_site_title(request):
-    from apps.system_setting.models import Identity
+    try:
+        from apps.system_setting.models import Identity
 
-    identity = Identity.objects.filter(is_active=True).last()
+        identity = Identity.objects.filter(is_active=True).last()
 
-    if identity:
-        return identity.title
+        if identity:
+            return identity.title
+    except Exception:
+        pass
 
     return "DRF Starter Kit"
 
 
 def get_site_favicon(request):
-    from apps.system_setting.models import Identity
+    try:
+        from apps.system_setting.models import Identity
 
-    identity = Identity.objects.filter(is_active=True).last()
+        identity = Identity.objects.filter(is_active=True).last()
 
-    if identity and identity.fav_icon:
-        return identity.fav_icon.url
+        if identity and identity.fav_icon:
+            return identity.fav_icon.url
+    except Exception:
+        pass
 
     return None
 
